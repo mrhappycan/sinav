@@ -4,7 +4,7 @@ import { Text } from 'react-native'
 
 const App = () => {
     return (
-        <Text> Forking from here </Text>
+        <Text>Sınavın başlangıç hali budur. Figmadaki design'a ve direktiflere uygun bir şekilde toplayabildiğiniz en yüksek puanı toplamaya çalışın.</Text>
     )
 }
 
