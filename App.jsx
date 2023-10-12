@@ -1,27 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Button, Text, StyleSheet, Alert } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MMKVLoader, useMMKVStorage } from 'react-native-mmkv-storage';
 
-const AsyncStorageTest = () => {
+const MMKV = new MMKVLoader().initialize();
+
+const MMKVStorageTest = () => {
     const [inputValue, setInputValue] = useState('');
-    const [storedValue, setStoredValue] = useState('');
+    const [storedValue, setStoredValue] = useMMKVStorage('test_key', MMKV);
 
-    const saveValueToStorage = async () => {
+    const saveValueToStorage = () => {
         try {
-            await AsyncStorage.setItem('test_key', inputValue);
-            Alert.alert("Success!", "Value saved to AsyncStorage.");
+            MMKV.setString('test_key', inputValue);
+            Alert.alert("Success!", "Value saved to MMKV storage.");
         } catch (error) {
             Alert.alert("Error", "There was an error saving the value.");
         }
     };
 
-    const loadValueFromStorage = async () => {
+    const loadValueFromStorage = () => {
         try {
-            const value = await AsyncStorage.getItem('test_key');
-            if (value !== null) {
+            const value = MMKV.getString('test_key');
+            if (value) {
                 setStoredValue(value);
             } else {
-                Alert.alert("Info", "No value found in AsyncStorage.");
+                Alert.alert("Info", "No value found in MMKV storage.");
             }
         } catch (error) {
             Alert.alert("Error", "There was an error loading the value.");
@@ -38,7 +40,7 @@ const AsyncStorageTest = () => {
             />
             <Button title="Save" onPress={saveValueToStorage} />
             <Button title="Load" onPress={loadValueFromStorage} />
-            <Text style={styles.storedText}>Loaded from AsyncStorage: {storedValue}</Text>
+            <Text style={styles.storedText}>Loaded from MMKV storage: {storedValue}</Text>
         </View>
     );
 };
@@ -62,4 +64,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AsyncStorageTest;
+export default MMKVStorageTest;
