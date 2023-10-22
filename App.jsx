@@ -1,21 +1,38 @@
-import React from 'react'
-import {
-  Text,
-  StyleSheet,
-} from 'react-native'
+import React from 'react';
 
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native'
 
+import HomeScreen from './src/HomeScreen';
+import DetailScreen from './src/DetailScreen';
+import MemoryScreen from './src/anısayfası';
+
+const Stack = createNativeStackNavigator()
 const App = () => {
+
   return (
-    <Text style={ styles.txt } >Sınavın başlangıç hali budur. Figmadaki design'a ve direktiflere uygun bir şekilde toplayabildiğiniz en yüksek puanı toplamaya çalışın.</Text>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name='Ana Sayfa'
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name='Detaylar'
+          component={DetailScreen}
+          options={{ headerShown: false }}
+        />
+
+        <Stack.Screen
+          name='Memory'
+          component={MemoryScreen}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   )
 }
 
-const styles = StyleSheet.create({
-  txt: {
-    fontFamily: 'Lora-Regular',
-    fontSize: 24
-  }
-})
-
-export default App;
+export default App
